@@ -1,24 +1,357 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>flood-watch-buddy-app</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flood Watch Buddy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Loading Screen -->
+        <div id="loading" class="screen active">
+            <div class="loading-content">
+                <div class="logo">🌊</div>
+                <h1>Flood Watch Buddy</h1>
+                <div class="spinner"></div>
+            </div>
+        </div>
 
-    <meta property="og:title" content="flood-watch-buddy-app" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+        <!-- Home Screen -->
+        <div id="home" class="screen">
+            <header class="app-header">
+                <h1><i class="fas fa-water"></i> Flood Watch Buddy</h1>
+                <p>Stay safe, stay informed</p>
+            </header>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+            <!-- Current Risk Status -->
+            <div class="risk-card">
+                <div class="risk-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h2>Current Flood Risk</h2>
+                <div class="risk-level moderate" id="riskLevel">
+                    MODERATE RISK
+                </div>
+                <p class="last-updated">Last updated: <span id="lastUpdated"></span></p>
+            </div>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+            <!-- Main Actions -->
+            <div class="action-grid">
+                <button class="action-btn water-gradient" onclick="showScreen('map')">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Live Map</span>
+                </button>
+                <button class="action-btn safe-gradient" onclick="showScreen('chat')">
+                    <i class="fas fa-life-ring"></i>
+                    <span>Get Help</span>
+                </button>
+                <button class="action-btn water-gradient" onclick="showScreen('routes')">
+                    <i class="fas fa-route"></i>
+                    <span>Safe Routes</span>
+                </button>
+                <button class="action-btn safe-gradient" onclick="showScreen('guide')">
+                    <i class="fas fa-book"></i>
+                    <span>Flood Guide</span>
+                </button>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="btn-secondary" onclick="showScreen('report')">
+                    <i class="fas fa-camera"></i> Report Flood
+                </button>
+                <button class="btn-secondary" onclick="showScreen('settings')">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
+            </div>
+
+            <!-- Emergency SOS -->
+            <button class="emergency-btn" onclick="emergencyCall()">
+                <i class="fas fa-phone"></i>
+                EMERGENCY SOS
+            </button>
+        </div>
+
+        <!-- Map Screen -->
+        <div id="map" class="screen">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Live Flood Map</h2>
+                <div></div>
+            </div>
+
+            <div class="map-container">
+                <div class="mock-map">
+                    <i class="fas fa-map-marker-alt map-icon"></i>
+                    <p>Interactive Flood Map</p>
+                    <small>Satellite View Available</small>
+                </div>
+            </div>
+
+            <div class="location-info">
+                <div class="location-card">
+                    <i class="fas fa-location-arrow"></i>
+                    <div>
+                        <strong>Your Location</strong>
+                        <p>Downtown District, Safe Zone</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flood-zones">
+                <h3><i class="fas fa-shield-alt"></i> Flood Affected Areas</h3>
+                <div class="zone-list" id="floodZones"></div>
+            </div>
+        </div>
+
+        <!-- Chat Assistant Screen -->
+        <div id="chat" class="screen">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2><i class="fas fa-robot"></i> AI Assistant</h2>
+                <div></div>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <i class="fas fa-robot"></i>
+                        <div class="message-content">
+                            <p>Hello! I'm your Flood Emergency Assistant. How can I help you stay safe today?</p>
+                            <span class="timestamp"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="suggested-prompts">
+                    <h4>Quick Help:</h4>
+                    <div class="prompt-grid">
+                        <button class="prompt-btn" onclick="sendMessage('Where is the nearest shelter?')">Nearest shelter?</button>
+                        <button class="prompt-btn" onclick="sendMessage('How to stay safe?')">Stay safe tips</button>
+                        <button class="prompt-btn" onclick="sendMessage('Request emergency rescue')">Emergency rescue</button>
+                        <button class="prompt-btn" onclick="sendMessage('Is my area safe?')">Check my area</button>
+                    </div>
+                </div>
+
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Ask me anything about flood safety...">
+                    <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Safe Routes Screen -->
+        <div id="routes" class="screen">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Safe Routes</h2>
+                <div></div>
+            </div>
+
+            <div class="route-search">
+                <input type="text" placeholder="Enter destination..." id="destination">
+                <div class="transport-modes">
+                    <button class="transport-btn active" data-mode="walking">
+                        <i class="fas fa-walking"></i>
+                        <span>Walking</span>
+                    </button>
+                    <button class="transport-btn" data-mode="car">
+                        <i class="fas fa-car"></i>
+                        <span>Car</span>
+                    </button>
+                    <button class="transport-btn" data-mode="boat">
+                        <i class="fas fa-ship"></i>
+                        <span>Boat</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="route-map">
+                <div class="mock-map">
+                    <i class="fas fa-route map-icon"></i>
+                    <p>Route Navigation</p>
+                    <small>Showing safest path</small>
+                </div>
+            </div>
+
+            <div class="route-list" id="routeList"></div>
+        </div>
+
+        <!-- Report Flood Screen -->
+        <div id="report" class="screen">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Report Flooding</h2>
+                <div></div>
+            </div>
+
+            <form class="report-form" onsubmit="submitReport(event)">
+                <div class="location-display">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <strong>Current Location</strong>
+                        <p>Downtown District • GPS: 23.7465, 90.3763</p>
+                    </div>
+                </div>
+
+                <div class="photo-upload">
+                    <h3><i class="fas fa-camera"></i> Add Photo (Optional)</h3>
+                    <div class="upload-area" onclick="uploadPhoto()">
+                        <i class="fas fa-upload"></i>
+                        <span>Tap to upload photo</span>
+                    </div>
+                </div>
+
+                <div class="water-depth">
+                    <h3><i class="fas fa-tint"></i> Water Depth</h3>
+                    <input type="range" id="depthSlider" min="0" max="200" value="50">
+                    <div class="depth-display">
+                        <span>0 cm</span>
+                        <span id="depthValue">50 cm</span>
+                        <span>200+ cm</span>
+                    </div>
+                </div>
+
+                <div class="severity-level">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Severity Level</h3>
+                    <div class="severity-options">
+                        <button type="button" class="severity-btn" data-level="low">
+                            <span>💧</span> Minor Flooding
+                        </button>
+                        <button type="button" class="severity-btn active" data-level="moderate">
+                            <span>🌊</span> Moderate Flooding
+                        </button>
+                        <button type="button" class="severity-btn" data-level="high">
+                            <span>⚠️</span> Severe Flooding
+                        </button>
+                    </div>
+                </div>
+
+                <div class="description">
+                    <h3>Additional Details</h3>
+                    <textarea placeholder="Describe what you see..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Submit Flood Report
+                </button>
+            </form>
+        </div>
+
+        <!-- Settings Screen -->
+        <div id="settings" class="screen">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2><i class="fas fa-cog"></i> Settings</h2>
+                <div></div>
+            </div>
+
+            <div class="settings-content">
+                <div class="setting-section">
+                    <h3><i class="fas fa-globe"></i> Language</h3>
+                    <select id="languageSelect">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="bn">🇧🇩 বাংলা (Bangla)</option>
+                    </select>
+                </div>
+
+                <div class="setting-section">
+                    <h3><i class="fas fa-bell"></i> Notifications</h3>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                        Push Notifications
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                        SMS Alerts
+                    </label>
+                </div>
+
+                <div class="setting-section">
+                    <h3><i class="fas fa-phone"></i> Emergency Contact</h3>
+                    <input type="tel" placeholder="Enter phone number">
+                </div>
+
+                <button class="save-btn" onclick="saveSettings()">Save Settings</button>
+            </div>
+        </div>
+
+        <!-- Flood Guide Screen -->
+        <div id="guide" class="screen">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2><i class="fas fa-book"></i> Flood Safety Guide</h2>
+                <div></div>
+            </div>
+
+            <div class="guide-tabs">
+                <button class="tab-btn active" onclick="showGuideTab('before')">Before Flood</button>
+                <button class="tab-btn" onclick="showGuideTab('during')">During Flood</button>
+                <button class="tab-btn" onclick="showGuideTab('after')">After Flood</button>
+            </div>
+
+            <div class="guide-content">
+                <div id="guide-before" class="guide-tab active">
+                    <div class="guide-section">
+                        <h3><i class="fas fa-box"></i> Emergency Kit</h3>
+                        <ul>
+                            <li>Water (1 gallon per person per day for 3 days)</li>
+                            <li>Non-perishable food for 3 days</li>
+                            <li>Battery-powered radio</li>
+                            <li>Flashlight and extra batteries</li>
+                            <li>First aid kit</li>
+                            <li>Medications (7-day supply)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="guide-during" class="guide-tab">
+                    <div class="guide-section">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Safety First</h3>
+                        <ul>
+                            <li>Move to higher ground immediately</li>
+                            <li>Never walk through flowing water</li>
+                            <li>Avoid driving through flooded roads</li>
+                            <li>Stay away from downed power lines</li>
+                            <li>Listen to emergency broadcasts</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="guide-after" class="guide-tab">
+                    <div class="guide-section">
+                        <h3><i class="fas fa-shield-alt"></i> Stay Safe</h3>
+                        <ul>
+                            <li>Wait for authorities to say it's safe to return</li>
+                            <li>Avoid flood water - it may be contaminated</li>
+                            <li>Check for structural damage before entering</li>
+                            <li>Document damage with photos</li>
+                            <li>Contact your insurance company</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
 </html>

@@ -1,73 +1,100 @@
-# Welcome to your Lovable project
 
-## Project info
+# Flood Watch Buddy - HTML/CSS/JS Version
 
-**URL**: https://lovable.dev/projects/577343da-4f95-49c6-b8e8-a42080244316
+A simple flood safety and monitoring application built with vanilla HTML, CSS, and JavaScript.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- **Home Dashboard**: Current flood risk status and quick access to all features
+- **Live Flood Map**: Interactive map showing flood zones and safe areas
+- **AI Chat Assistant**: Get help and safety information through chat
+- **Safe Routes**: Find the safest path to shelters and destinations
+- **Flood Reporting**: Report flooding in your area with photos and details
+- **Safety Guide**: Comprehensive flood safety information
+- **Settings**: Customize app preferences and emergency contacts
 
-**Use Lovable**
+## File Structure
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/577343da-4f95-49c6-b8e8-a42080244316) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+flood-watch-buddy/
+├── index.html          # Main application file
+├── css/
+│   └── style.css       # All styling and responsive design
+├── js/
+│   └── app.js          # Application logic and functionality
+└── README.md           # This file
 ```
 
-**Edit a file directly in GitHub**
+## Setup
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. Download all files to a folder
+2. Open `index.html` in your web browser
+3. The app will work offline - no server required!
 
-**Use GitHub Codespaces**
+## Usage
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Navigation
+- The app uses a single-page design with different screens
+- Use the back button or home navigation to move between screens
+- All features are accessible from the main dashboard
 
-## What technologies are used for this project?
+### Key Features
 
-This project is built with:
+**Emergency Functions**:
+- Emergency SOS button for immediate help
+- Real-time flood risk monitoring
+- Safety instructions and guidelines
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+**Reporting**:
+- Take photos of flooding
+- Report water depth and severity
+- GPS location automatically included
 
-## How can I deploy this project?
+**Navigation**:
+- Find safe routes to shelters
+- Multiple transport modes (walking, car, boat)
+- Real-time route safety information
 
-Simply open [Lovable](https://lovable.dev/projects/577343da-4f95-49c6-b8e8-a42080244316) and click on Share -> Publish.
+**Chat Assistant**:
+- Ask questions about flood safety
+- Get location-specific advice
+- Emergency response coordination
 
-## Can I connect a custom domain to my Lovable project?
+## Customization
 
-Yes, you can!
+### Styling
+- Modify `css/style.css` to change colors, layouts, or add themes
+- The design is mobile-first and fully responsive
+- Uses CSS Grid and Flexbox for layouts
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Functionality  
+- Update `js/app.js` to add new features or modify behavior
+- Data is stored in the `appData` object
+- Easy to integrate with real APIs and services
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Content
+- Flood zones, routes, and safety information can be updated in the JavaScript
+- Messages and UI text can be customized for different languages
+
+## Browser Compatibility
+
+- Works in all modern browsers (Chrome, Firefox, Safari, Edge)
+- Mobile responsive design
+- No external dependencies except Font Awesome icons
+
+## Future Enhancements
+
+- GPS integration for real location data
+- Push notifications for alerts
+- Offline map caching
+- Integration with weather APIs
+- Multi-language support
+- Voice commands and accessibility features
+
+## License
+
+Open source - feel free to modify and distribute.
+
+---
+
+**Emergency Note**: This is a demonstration app. In real emergencies, always contact your local emergency services directly.
